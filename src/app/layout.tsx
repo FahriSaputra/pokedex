@@ -18,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <main className="flex flex-col items-center">
+            <div className="max-w-3xl w-full">{children}</div>
+          </main>
+        </ReactQueryProvider>
       </body>
     </html>
   );
