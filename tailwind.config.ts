@@ -34,6 +34,10 @@ const config: Config = {
           steel: "#B7B9D0",
           water: "#6493EB",
         },
+        gray: {
+          medium: "#666",
+          background: "#EFEFEF",
+        },
       },
     },
   },
