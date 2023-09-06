@@ -4,8 +4,11 @@ import { useRef } from "react";
 import PokemonCard from "@/components/PokemonCard";
 import useGetPokemons from "@/hooks/useGetPokemons";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import useFavorite from "@/hooks/useFavorite";
 
 export default function Home() {
+  const { isFavorite, handleFavoritePokemon } = useFavorite();
+
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useGetPokemons();
 
@@ -20,8 +23,13 @@ export default function Home() {
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2">
-        {data?.map(({ name }) => (
-          <PokemonCard key={name} name={name} />
+        {data?.map((species) => (
+          <PokemonCard
+            key={species?.name}
+            species={species}
+            isFavorite={isFavorite(species)}
+            onToggleFavorite={(el) => handleFavoritePokemon(el, species)}
+          />
         ))}
       </div>
 
