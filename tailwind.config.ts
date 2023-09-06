@@ -14,6 +14,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
+        primary: "#DC0A2D",
         pokemon: {
           bug: "#A7B723",
           dark: "#75574C",
