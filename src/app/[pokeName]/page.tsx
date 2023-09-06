@@ -3,6 +3,7 @@
 import Header from "@/components/PokemonDetail/Header";
 import HeroPokeBall from "@/components/PokemonDetail/HeroPokeBall";
 import PokemonDetailContent from "@/components/PokemonDetail/PokemonDetailContent";
+import useFavorite from "@/hooks/useFavorite";
 import useGetPokemonDetail from "@/hooks/useGetPokemonDetail";
 import useGetPokemonSpecies from "@/hooks/useGetPokemonSpecies";
 import useTypeColor from "@/hooks/useTypeColor";
@@ -13,6 +14,8 @@ export default function PokemonDetail(props: { params: { pokeName: string } }) {
   } = props;
 
   const bgColor = useTypeColor("bg");
+
+  const { isFavorite, handleFavoritePokemon } = useFavorite();
 
   const {
     data: pokemonDetail,
@@ -32,6 +35,8 @@ export default function PokemonDetail(props: { params: { pokeName: string } }) {
 
   const types = pokemonDetailData?.types;
 
+  const species = pokemonDetailData?.species!;
+
   if (
     isLoadingPokemonSpecies ||
     isLoadingPokemonDetail ||
@@ -42,7 +47,13 @@ export default function PokemonDetail(props: { params: { pokeName: string } }) {
 
   return (
     <>
-      <Header id={pokemonDetailData?.id!} title={name!} />
+      <Header
+        id={pokemonDetailData?.id!}
+        title={name!}
+        withFavorite
+        isFavorite={isFavorite(species)}
+        handleToggleFavorite={(el) => handleFavoritePokemon(el, species)}
+      />
 
       <HeroPokeBall bgColor={bgColor[types![0]?.type.name]} />
 
