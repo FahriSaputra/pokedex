@@ -3,6 +3,7 @@
 import { Dispatch, Ref, SetStateAction, useState } from "react";
 import Image from "next/image";
 import DropdownHeader from "@/components/Home/DropdownHeader";
+import Link from "next/link";
 
 interface IHomeHeader {
   dropdownRef: Ref<HTMLDivElement>;
@@ -35,27 +36,33 @@ const HomeHeader = (props: IHomeHeader) => {
           <h1 className="pl-4 text-white text-2xl font-bold">Pokédex</h1>
         </div>
 
-        <Image
-          className="cursor-pointer"
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAq0lEQVR4nO2UQQrCMBBFH7ruETyCC/EUbor30EVv4kG66C1cSE/RG7RLFSIjfxFKwSQWFJoHWWTm/5lhIIFMJG6m87sGRiNR/b6FUctj3o9sgEGGMkB/kHaQN4gqYS0VEayBNqJ4K08Ue+AJPIDdRH4L3KUxbRIXTXgbTbgCrsqZJpkC6FTo5MXPinXSfMVRxXov1itmuVlwowcU9KByA5dX5ONSvuW/arBgXrQTfBvrv5quAAAAAElFTkSuQmCC"
-          alt="filter"
-          width={24}
-          height={24}
-          onClick={() => onClickFilter(!showDropdown)}
-          ref={dropdownButtonRef}
-        />
-        <div
-          className="z-10 bg-white rounded-lg shadow w-60 absolute top-12 right-2"
-          ref={dropdownRef}
-        >
-          {showDropdown && (
-            <DropdownHeader
-              onApply={onApply}
-              onReset={onReset}
-              onSelect={onSelect}
-              selected={selected}
-            />
-          )}
+        <div className="flex">
+          <Link className="mr-4" href="/favorite">
+            {" "}
+            &#10084;
+          </Link>
+          <Image
+            className="cursor-pointer"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAq0lEQVR4nO2UQQrCMBBFH7ruETyCC/EUbor30EVv4kG66C1cSE/RG7RLFSIjfxFKwSQWFJoHWWTm/5lhIIFMJG6m87sGRiNR/b6FUctj3o9sgEGGMkB/kHaQN4gqYS0VEayBNqJ4K08Ue+AJPIDdRH4L3KUxbRIXTXgbTbgCrsqZJpkC6FTo5MXPinXSfMVRxXov1itmuVlwowcU9KByA5dX5ONSvuW/arBgXrQTfBvrv5quAAAAAElFTkSuQmCC"
+            alt="filter"
+            width={24}
+            height={24}
+            onClick={() => onClickFilter(!showDropdown)}
+            ref={dropdownButtonRef}
+          />
+          <div
+            className="z-10 bg-white rounded-lg shadow w-60 absolute top-12 right-2"
+            ref={dropdownRef}
+          >
+            {showDropdown && (
+              <DropdownHeader
+                onApply={onApply}
+                onReset={onReset}
+                onSelect={onSelect}
+                selected={selected}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
