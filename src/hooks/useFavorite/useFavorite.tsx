@@ -16,10 +16,9 @@ const useFavorite = (): IUseFavorite => {
   const [favoritePokemon, setFavoritePokemon] = useState<NamedAPIResource[]>(
     []
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getFavoritePokemon = useCallback(() => {
-    setIsLoading(true);
     const favoriteStorage: NamedAPIResource[] = JSON.parse(
       localStorage.getItem("favorite") || "[]"
     );
