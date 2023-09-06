@@ -2,8 +2,9 @@ import Image from "next/image";
 import PokemonType from "@/components/PokemonType";
 import useGetPokemonDetail from "@/hooks/useGetPokemonDetail";
 import Link from "next/link";
-import Favorite from "../Favorite/Favorite";
+import Favorite from "@/components/Favorite";
 import { NamedAPIResource } from "@/models";
+import Shimmer from "./PokemonCard.shimmer";
 
 interface IPokemonCard {
   species: NamedAPIResource;
@@ -17,7 +18,7 @@ interface IPokemonCard {
 const PokemonCard = (props: IPokemonCard) => {
   const { species, isFavorite, onToggleFavorite } = props;
 
-  const { data } = useGetPokemonDetail(species?.name);
+  const { data, isLoading } = useGetPokemonDetail(species?.name);
 
   const types = data?.data?.types;
 
@@ -26,6 +27,8 @@ const PokemonCard = (props: IPokemonCard) => {
   const handleToggleFavorite = (el: React.MouseEvent<HTMLParagraphElement>) => {
     onToggleFavorite(el, species);
   };
+
+  if (isLoading) return <Shimmer />;
 
   return (
     <Link href={`/${species?.name}`}>
@@ -42,9 +45,21 @@ const PokemonCard = (props: IPokemonCard) => {
             />
           </div>
 
-          {!!image && (
+          {image ? (
             <div className="relative w-full h-20 sm:h-32">
-              <Image src={image} alt={species?.name} fill objectFit="contain" />
+              <Image
+                src={image}
+                alt={species?.name}
+                fill
+                objectFit="contain"
+                quality={30}
+              />
+            </div>
+          ) : (
+            <div className="flex justify-center py-2">
+              <div className=" bg-gray-200 rounded-md w-1/2 h-20 sm:h-32 flex justify-center items-center">
+                <p className="text-gray-400 text-4xl">?</p>
+              </div>
             </div>
           )}
 
