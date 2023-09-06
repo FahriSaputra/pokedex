@@ -5,15 +5,22 @@ import Header from "@/components/PokemonDetail/Header";
 import useFavorite from "@/hooks/useFavorite";
 
 export default function Favorite() {
-  const { isFavorite, favoritePokemon, handleFavoritePokemon } = useFavorite();
+  const { isFavorite, favoritePokemon, handleFavoritePokemon, isLoading } =
+    useFavorite();
 
   return (
     <>
       <Header title="Favorite" bgColor="bg-pokemon-water" />
-      {favoritePokemon?.length === 0 && (
+      {(isLoading || favoritePokemon?.length === 0) && (
         <div className="h-full text-center mt-24">
-          <p>Upss, Pokemon not Found</p>
-          <p>Add favorite pokemon first</p>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <p>Upss, Pokemon not Found</p>
+              <p>Add favorite pokemon first</p>
+            </>
+          )}
         </div>
       )}
 

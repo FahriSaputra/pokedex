@@ -9,18 +9,22 @@ interface IUseFavorite {
   isFavorite: (species: NamedAPIResource) => boolean;
   favoritePokemon: NamedAPIResource[];
   getFavoritePokemon: () => NamedAPIResource[];
+  isLoading: boolean;
 }
 
 const useFavorite = (): IUseFavorite => {
   const [favoritePokemon, setFavoritePokemon] = useState<NamedAPIResource[]>(
     []
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const getFavoritePokemon = useCallback(() => {
+    setIsLoading(true);
     const favoriteStorage: NamedAPIResource[] = JSON.parse(
       localStorage.getItem("favorite") || "[]"
     );
 
+    setIsLoading(false);
     return favoriteStorage;
   }, []);
 
@@ -78,6 +82,7 @@ const useFavorite = (): IUseFavorite => {
     isFavorite,
     favoritePokemon,
     getFavoritePokemon,
+    isLoading,
   };
 };
 
