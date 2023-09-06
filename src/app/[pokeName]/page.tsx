@@ -7,6 +7,7 @@ import useFavorite from "@/hooks/useFavorite";
 import useGetPokemonDetail from "@/hooks/useGetPokemonDetail";
 import useGetPokemonSpecies from "@/hooks/useGetPokemonSpecies";
 import useTypeColor from "@/hooks/useTypeColor";
+import Link from "next/link";
 
 export default function PokemonDetail(props: { params: { pokeName: string } }) {
   const {
@@ -37,30 +38,50 @@ export default function PokemonDetail(props: { params: { pokeName: string } }) {
 
   const species = pokemonDetailData?.species!;
 
-  if (
-    isLoadingPokemonSpecies ||
-    isLoadingPokemonDetail ||
-    isErrorPokemonDetail ||
-    isErrorPokemonSpecies
-  )
-    return null;
+  const isLoading = isLoadingPokemonSpecies || isLoadingPokemonDetail;
+
+  const isError = isErrorPokemonDetail || isErrorPokemonSpecies;
 
   return (
     <>
       <Header
         id={pokemonDetailData?.id!}
         title={name!}
-        withFavorite
+        withFavorite={!isLoading && !isError}
         isFavorite={isFavorite(species)}
         handleToggleFavorite={(el) => handleFavoritePokemon(el, species)}
       />
 
-      <HeroPokeBall bgColor={bgColor[types![0]?.type.name]} />
+      {isLoading && (
+        <div className="h-screen flex justify-center items-center">
+          <p>Loading...</p>
+        </div>
+      )}
 
-      <PokemonDetailContent
-        pokemonDetail={pokemonDetail?.data}
-        pokemonSpecies={pokemonSpecies?.data}
-      />
+      {!isLoading && isError && (
+        <div className="h-screen flex justify-center items-center flex-col">
+          <p className="text-center mb-6">
+            Upss, Someting when wrong
+            <br />
+            Try again later
+          </p>
+
+          <Link href="/">
+            <button className="px-2 bg-primary text-white rounded">Home</button>
+          </Link>
+        </div>
+      )}
+
+      {!isLoading && !isError && (
+        <>
+          <HeroPokeBall bgColor={bgColor[types![0]?.type.name]} />
+
+          <PokemonDetailContent
+            pokemonDetail={pokemonDetail?.data!}
+            pokemonSpecies={pokemonSpecies?.data!}
+          />
+        </>
+      )}
     </>
   );
 }
