@@ -37,6 +37,8 @@ const config: Config = {
         gray: {
           medium: "#666",
           background: "#EFEFEF",
+          light: "#E0E0E0",
+          dark: "#1D1D1D",
         },
       },
     },
