@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReactQueryProvider>
           <main className="flex flex-col items-center">
-            <div className="max-w-3xl w-full">{children}</div>
+            <div className="max-w-3xl w-full relative">{children}</div>
           </main>
         </ReactQueryProvider>
       </body>
