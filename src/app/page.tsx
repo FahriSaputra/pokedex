@@ -19,7 +19,7 @@ export default function Home() {
     data: pokemonData,
     fetchNextPage,
     isFetchingNextPage,
-    hasNextPage,
+    isLoading: isLoadingPokemonData,
   } = useGetPokemons();
 
   const loadMore = useRef<HTMLParagraphElement>(null);
@@ -27,13 +27,16 @@ export default function Home() {
   useIntersectionObserver({
     target: loadMore,
     onIntersect: fetchNextPage,
-    enabled: hasNextPage,
+    enabled: !filterActive,
   });
 
-  const { data: pokemonByType, refetch } = useGetPokemonByType(
-    selectedType,
-    false
-  );
+  const {
+    data: pokemonByType,
+    refetch,
+    isFetching: isLoadingPokemonByType,
+  } = useGetPokemonByType(selectedType, false);
+
+  const isLoading = isLoadingPokemonData || isLoadingPokemonByType;
 
   const dataPokemon = filterActive ? pokemonByType : pokemonData;
 
@@ -59,6 +62,8 @@ export default function Home() {
     setFilterActive(false);
     setSelectedType("");
     setShow(false);
+
+    window?.scrollTo(0, 0);
   };
 
   return (
@@ -74,22 +79,31 @@ export default function Home() {
         onClickFilter={setShow}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 pt-6 py-6">
-        {dataPokemon?.map((species) => (
-          <PokemonCard
-            key={species?.name}
-            species={species}
-            isFavorite={isFavorite(species)}
-            onToggleFavorite={(el) => handleFavoritePokemon(el, species)}
-          />
-        ))}
-      </div>
-
-      {!filterActive && isFetchingNextPage && (
-        <p className="text-center pb-4" ref={loadMore}>
-          Loading...
-        </p>
+      {(isLoading || dataPokemon?.length === 0) && (
+        <div className="flex justify-center items-center h-[300px]">
+          <p className="text-center">
+            {isLoading ? "Loading..." : "Upss, Pokemon not Found"}
+          </p>
+        </div>
       )}
+
+      {!isLoading && (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 pt-6 py-6">
+          {dataPokemon &&
+            dataPokemon?.map((species) => (
+              <PokemonCard
+                key={species?.name}
+                species={species}
+                isFavorite={isFavorite(species)}
+                onToggleFavorite={(el) => handleFavoritePokemon(el, species)}
+              />
+            ))}
+        </div>
+      )}
+
+      <p className="text-center pb-4" ref={loadMore}>
+        {isFetchingNextPage && !filterActive ? "Loading..." : ""}
+      </p>
     </div>
   );
 }
