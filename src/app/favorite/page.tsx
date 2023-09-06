@@ -10,9 +10,9 @@ export default function Favorite() {
 
   return (
     <>
-      <Header title="Favorite" bgColor="bg-pokemon-water" />
+      <Header title="Favorite" bgColor="bg-primary" />
       {(isLoading || favoritePokemon?.length === 0) && (
-        <div className="h-full text-center mt-24">
+        <div className="h-full text-center px-2 pt-6 mt-16">
           {isLoading ? (
             <p>Loading...</p>
           ) : (
@@ -24,7 +24,7 @@ export default function Favorite() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 mt-24">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 pt-6 mt-16">
         {favoritePokemon &&
           favoritePokemon?.map((species) => (
             <PokemonCard

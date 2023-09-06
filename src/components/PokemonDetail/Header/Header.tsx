@@ -25,7 +25,7 @@ const Header = (props: IHeader) => {
 
   return (
     <div
-      className={`p-6 flex items-center gap-2 w-full absolute z-50 ${bgColor}`}
+      className={`py-4 px-2 flex items-center gap-2 w-full absolute z-50 ${bgColor}`}
     >
       <Link href={href || "/"}>
         <Image
